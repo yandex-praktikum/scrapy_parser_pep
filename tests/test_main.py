@@ -73,7 +73,7 @@ def test_run_scrapy(monkeypatch, tmpdir):
         ][0], 'r',
     ) as file:
         file_result = file.read()
-        active_pattern = re.compile(r'Active,(\d)+')
+        active_pattern = re.compile(r'.?(\w+).?(,).+?(\d+).?')
         assert re.search(active_pattern, file_result), (
             'Убедитесь, что строки в файле `status_summary_` '
             'записываются в правильном формате: `Статус,Количество`'
