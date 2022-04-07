@@ -17,7 +17,7 @@ def test_items_fields():
     assert issubclass(PepParseItem, scrapy.Item), (
         '`PepParseItem` должен наследоваться от `scrapy.Item`'
     )
-    fields = ['name', 'number', 'status']
+    fields = ['number', 'name', 'status']
     for field in fields:
         assert field in list(PepParseItem.fields.keys()), (
             f'В `PepParseItem` не хватает атрибута `{field}`'
