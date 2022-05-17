@@ -64,6 +64,7 @@ def test_run_scrapy(monkeypatch, tmp_path):
 def test_check_correct_output_files():
     with open(
         [file for file in output_files if 'pep' in str(file)][0], 'r',
+        encoding='utf-8',
     ) as file:
         file_result = file.read()
         pep_pattern = re.compile(r'(\d)+\,PEP\s?(\d)+\s?(.)+')
@@ -76,6 +77,7 @@ def test_check_correct_output_files():
         [
             file for file in output_files if 'status_summary_' in str(file)
         ][0], 'r',
+        encoding='utf-8',
     ) as file:
         file_result = file.read()
         active_pattern = re.compile(r'Active,(\d)+')
