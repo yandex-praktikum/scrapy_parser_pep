@@ -1,24 +1,17 @@
 from pathlib import Path
 
-try:
-    from pep_parse.settings import FEEDS, ITEM_PIPELINES
-except ModuleNotFoundError as exc:
-    raise AssertionError(
-        'Не найден файл `settings.py` по пути '
-        f'`pep_parse.{exc.name.split(".")[0]}`',
-    )
-except ImportError as exc:
-    raise AssertionError(
-        f'Не найдены настройки `{exc.args[0].split()[3]}` в файле {exc.name}',
-    )
 
-
-def test_settings_feeds():
+def test_settings_feeds(parser_settings):
+    FEEDS = getattr(parser_settings, 'FEEDS')
+    assert FEEDS is not None, (
+        'Убедитесь, что в файле `settings.py` объявлен словарь `FEEDS`.'
+    )
     assert isinstance(FEEDS, dict), (
         'В файле settings.py необходимо объявить переменную `FEEDS` '
         'типа `dict` согласно документации.\n'
         'Ссылка на документацию: '
-        'https://docs.scrapy.org/en/latest/topics/feed-exports.html?highlight=feeds#feeds'
+        'https://docs.scrapy.org/en/latest/topics/feed-exports.html?highlight='
+        'feeds#feeds'
     )
     feeds_path = list(FEEDS.keys())
     assert len(feeds_path) == 1, (
@@ -46,12 +39,18 @@ def test_settings_feeds():
     )
 
 
-def test_item_pipelines():
+def test_item_pipelines(parser_settings):
+    ITEM_PIPELINES = getattr(parser_settings, 'ITEM_PIPELINES')
+    assert ITEM_PIPELINES is not None, (
+        'Убедитесь, что в файле `settings.py` объявлен словарь '
+        '`ITEM_PIPELINES`.'
+    )
     assert isinstance(ITEM_PIPELINES, dict), (
         'В файле settings.py необходимо объявить переменную `ITEM_PIPELINES` '
         'типа `dict` согласно документации.\n'
         'Ссылка на документацию: '
-        'https://docs.scrapy.org/en/latest/topics/settings.html?highlight=ITEM_PIPELINES#item-pipelines'
+        'https://docs.scrapy.org/en/latest/topics/settings.html?highlight='
+        'ITEM_PIPELINES#item-pipelines'
     )
     item_pipelines = list(ITEM_PIPELINES.keys())
     assert len(item_pipelines) == 1, (
@@ -60,7 +59,9 @@ def test_item_pipelines():
     assert item_pipelines[0] == 'pep_parse.pipelines.PepParsePipeline', (
         'Ключом пайплайна в настройках `ITEM_PIPELINES` должен быть класс.'
     )
-    assert ITEM_PIPELINES['pep_parse.pipelines.PepParsePipeline'] in range(1000), (
+    assert (
+        ITEM_PIPELINES['pep_parse.pipelines.PepParsePipeline'] in range(1000)
+    ), (
         'В качестве значения для ключа `pep_parse.pipelines.PepParsePipeline` '
         'в настройках укажите значение из диапазона от `0` и до `1000`'
     )
