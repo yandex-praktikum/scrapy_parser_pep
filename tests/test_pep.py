@@ -31,29 +31,34 @@ def test_pep_spider_attrs():
     assert hasattr(PepSpider, 'start_urls'), (
         'Класс `PepSpider` должен иметь атрибут `start_urls`.'
     )
-    assert PepSpider.start_urls == ['https://peps.python.org/'], (
-        'В классе PepSpider для атрибута start_urls установите список со значением '
-        'https://peps.python.org/'
+    assert (
+        PepSpider.start_urls in (
+            ['https://peps.python.org/'],
+            ['https://peps.python.org/numerical/']
+        )
+    ), (
+        'Убедитечь, что значение атрибута `start_urls` в классе `PepSpider` - '
+        'это список, единственным элементом которого является строка '
+        '`https://peps.python.org/` или `https://peps.python.org/numerical/`.'
     )
 
 
 def test_pep_spider_parse():
-    got = PepSpider()
-    assert hasattr(got, 'parse'), (
-        f'Класс `{got.__class__.__name__}` должен иметь метод `parse`.'
+    assert hasattr(PepSpider, 'parse'), (
+        f'Класс `{PepSpider.__class__.__name__}` должен иметь метод `parse`.'
     )
-    assert callable(got.parse), (
-        f'Убедитесь, что `parse` в классе {got.__class__.__name__} '
+    assert callable(PepSpider.parse), (
+        f'Убедитесь, что `parse` в классе {PepSpider.__class__.__name__} '
         '- это вызываемый метод.'
     )
 
 
 def test_pep_spider_parse_pep():
-    got = PepSpider()
-    assert hasattr(got, 'parse_pep'), (
-        f'В классе `{got.__class__.__name__}` должен быть метод `parse_pep`.'
+    assert hasattr(PepSpider, 'parse_pep'), (
+        f'В классе `{PepSpider.__class__.__name__}` должен быть метод '
+        '`parse_pep`.'
     )
-    assert callable(got.parse_pep), (
-        f'Убедитесь, что `parse_pep` в классе {got.__class__.__name__} '
+    assert callable(PepSpider.parse_pep), (
+        f'Убедитесь, что `parse_pep` в классе {PepSpider.__class__.__name__} '
         '- это вызываемый метод.'
     )

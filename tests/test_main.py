@@ -1,7 +1,6 @@
 import re
 
 import pytest
-from pep_parse import pipelines
 from scrapy.crawler import CrawlerProcess
 
 try:
@@ -12,9 +11,8 @@ except ModuleNotFoundError:
     )
 
 
-def test_run_scrapy(monkeypatch, temp_dir):
-    mock_base_dir = temp_dir
-    monkeypatch.setattr(pipelines, 'BASE_DIR', mock_base_dir)
+def test_run_scrapy(mock_dirs):
+    mock_base_dir = mock_dirs
 
     process = CrawlerProcess(settings={
         'LOG_ENABLED': False,
